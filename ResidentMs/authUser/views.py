@@ -38,6 +38,7 @@ def RegisterUser(request):
 #     "username":"mike",
 #     "email":"mike@gmail.com",
 #     "password":"123"
+#     "type":"seeker"
 # }
 
 @api_view(["POST"])
@@ -49,13 +50,16 @@ def LoginView(request):
 
     if user is not None:
         login(request, user)
-        user_id = User.objects.values('id').get(username=username)['id']
-        # profile_id = Profile.objects.values('id', 'ward_id', 'user_id', 'phone', 'description').get(user_id=user_id)
+        user_id = User.objects.get(username=username)
 
         response = {
             'msg': 'success',
-            # 'profile_id': profile_id,
             'token': get_user_token(user),
+            'first_name': user_id.first_name,
+            'last_name': user_id.last_name,
+            'username': user_id.username,
+            'email': user_id.email,
+            'type': user_id.type
         }
 
         return Response(response)

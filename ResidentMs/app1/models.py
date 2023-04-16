@@ -7,17 +7,24 @@ class JobVacancy(models.Model):
     choice = (('part-time', 'part-time'), ('full-time', 'full-time'))
     company = models.CharField(max_length=30)
     jobTitle = models.CharField(max_length=200)
-    max_age = models.IntegerField()
-    education = models.CharField(max_length=200)
     jobType = models.CharField(max_length=20, choices=choice)
-
-    # duration = models.CharField(max_length=200)
 
     def __str__(self):
         return f''
 
     class Meta:
         db_table = 'job_vacancy'
+
+
+class Requirement(models.Model):
+    requirement = models.CharField(max_length=200)
+    job = models.ForeignKey(JobVacancy, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.requirement}'
+
+    class Meta:
+        db_table = 'requirements'
 
 
 class Question(models.Model):

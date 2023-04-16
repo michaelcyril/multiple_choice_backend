@@ -212,6 +212,7 @@ def DefaultQuestion(request):
     response = {"sms": 'success'}
     return Response(response)
 
+
 # [
 #     {"question": "Is your country?", "is_checkable": true,
 #      "answer":[
@@ -234,3 +235,27 @@ def DefaultQuestion(request):
 #         ]
 #      }
 # ]
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def addRequirement(request):
+    job = JobVacancy.objects.get(id=request.data['vac_id'])
+    req = Requirement.objects.create(requirement=request.data['requirement'], job=job)
+    req.save()
+    response = {"save": True}
+    return Response(response)
+
+# {
+#     "requirement": "bra bra",
+#     "vac_id": 1
+# }
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def getRequirements(request, vac_id):
+    job = JobVacancy.objects.get(id=vac_id)
+    req = Requirement.objects.values('requirement').filter(job=job)
+    return Response(req)
+

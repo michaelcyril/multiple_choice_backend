@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name',
             'username',
             'email',
-            # 'type',
+            'type',
             'password',
         ]
         extra_kwargs = {"password": {"write_only": True}}
@@ -23,8 +23,8 @@ class UserSerializer(serializers.ModelSerializer):
         email = self.validated_data['email']
         password = self.validated_data['password']
         username = self.validated_data['username']
-        # type = self.validated_data['type']
-        user = User.objects.create_user(username=username, password=password, last_name=last_name, email=email, first_name=first_name)
+        type = self.validated_data['type']
+        user = User.objects.create_user(username=username, password=password, last_name=last_name, email=email, first_name=first_name, type=type)
         return user
 
 
